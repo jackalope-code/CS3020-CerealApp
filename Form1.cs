@@ -16,5 +16,20 @@ namespace CerealApp
         {
             InitializeComponent();
         }
+
+        private void menuAToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

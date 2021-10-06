@@ -29,174 +29,35 @@ namespace CerealApp
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.trackBar2 = new System.Windows.Forms.TrackBar();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.trackBar3 = new System.Windows.Forms.TrackBar();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.trackBar4 = new System.Windows.Forms.TrackBar();
-            this.listView1 = new System.Windows.Forms.ListView();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.nameTextBox = new System.Windows.Forms.TextBox();
             this.searchButton = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
+            this.nameGroupbox = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.filterFieldComboBox = new System.Windows.Forms.ComboBox();
+            this.checkBox6 = new System.Windows.Forms.CheckBox();
+            this.maxFieldValue = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.minFieldValue = new System.Windows.Forms.TextBox();
+            this.fieldBox = new System.Windows.Forms.GroupBox();
+            this.resetFieldsButton = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.sortOrderComboBox = new System.Windows.Forms.ComboBox();
+            this.sortFieldComboBox = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.nameGroupbox.SuspendLayout();
+            this.fieldBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "calories",
-            "sugar",
-            "vitamins and minerals"});
-            this.comboBox1.Location = new System.Drawing.Point(20, 25);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 28);
-            this.comboBox1.TabIndex = 1;
-            // 
-            // trackBar1
-            // 
-            this.trackBar1.Location = new System.Drawing.Point(32, 354);
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(158, 69);
-            this.trackBar1.TabIndex = 3;
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(68, 322);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(122, 26);
-            this.textBox1.TabIndex = 6;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(28, 325);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(34, 20);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Min";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(218, 325);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(38, 20);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "Max";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(258, 322);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(122, 26);
-            this.textBox2.TabIndex = 9;
-            // 
-            // trackBar2
-            // 
-            this.trackBar2.Location = new System.Drawing.Point(222, 354);
-            this.trackBar2.Name = "trackBar2";
-            this.trackBar2.Size = new System.Drawing.Size(158, 69);
-            this.trackBar2.TabIndex = 8;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.comboBox1);
-            this.groupBox1.Controls.Add(this.textBox3);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.trackBar3);
-            this.groupBox1.Controls.Add(this.trackBar4);
-            this.groupBox1.Controls.Add(this.textBox4);
-            this.groupBox1.Location = new System.Drawing.Point(12, 122);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(392, 185);
-            this.groupBox1.TabIndex = 11;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(206, 65);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(38, 20);
-            this.label3.TabIndex = 17;
-            this.label3.Text = "Max";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(246, 62);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(122, 26);
-            this.textBox3.TabIndex = 16;
-            // 
-            // trackBar3
-            // 
-            this.trackBar3.Location = new System.Drawing.Point(210, 94);
-            this.trackBar3.Name = "trackBar3";
-            this.trackBar3.Size = new System.Drawing.Size(158, 69);
-            this.trackBar3.TabIndex = 15;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(16, 65);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(34, 20);
-            this.label4.TabIndex = 14;
-            this.label4.Text = "Min";
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(56, 62);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(122, 26);
-            this.textBox4.TabIndex = 13;
-            // 
-            // trackBar4
-            // 
-            this.trackBar4.Location = new System.Drawing.Point(20, 94);
-            this.trackBar4.Name = "trackBar4";
-            this.trackBar4.Size = new System.Drawing.Size(158, 69);
-            this.trackBar4.TabIndex = 12;
-            // 
-            // listView1
-            // 
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(459, 62);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(301, 376);
-            this.listView1.TabIndex = 12;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(455, 9);
+            this.label5.Location = new System.Drawing.Point(589, 9);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(63, 20);
             this.label5.TabIndex = 13;
@@ -205,80 +66,228 @@ namespace CerealApp
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(32, 13);
+            this.label6.Location = new System.Drawing.Point(6, 31);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(51, 20);
             this.label6.TabIndex = 14;
             this.label6.Text = "Name";
             // 
-            // textBox5
+            // nameTextBox
             // 
-            this.textBox5.Location = new System.Drawing.Point(107, 13);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(223, 26);
-            this.textBox5.TabIndex = 15;
+            this.nameTextBox.Location = new System.Drawing.Point(73, 28);
+            this.nameTextBox.Name = "nameTextBox";
+            this.nameTextBox.Size = new System.Drawing.Size(286, 26);
+            this.nameTextBox.TabIndex = 15;
             // 
             // searchButton
             // 
-            this.searchButton.Location = new System.Drawing.Point(36, 62);
+            this.searchButton.Location = new System.Drawing.Point(6, 370);
             this.searchButton.Name = "searchButton";
-            this.searchButton.Size = new System.Drawing.Size(294, 43);
+            this.searchButton.Size = new System.Drawing.Size(561, 60);
             this.searchButton.TabIndex = 16;
             this.searchButton.Text = "Search";
             this.searchButton.UseVisualStyleBackColor = true;
+            this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
+            // 
+            // nameGroupbox
+            // 
+            this.nameGroupbox.Controls.Add(this.label1);
+            this.nameGroupbox.Controls.Add(this.filterFieldComboBox);
+            this.nameGroupbox.Controls.Add(this.checkBox6);
+            this.nameGroupbox.Controls.Add(this.maxFieldValue);
+            this.nameGroupbox.Controls.Add(this.label15);
+            this.nameGroupbox.Controls.Add(this.label16);
+            this.nameGroupbox.Controls.Add(this.minFieldValue);
+            this.nameGroupbox.Location = new System.Drawing.Point(6, 120);
+            this.nameGroupbox.Name = "nameGroupbox";
+            this.nameGroupbox.Size = new System.Drawing.Size(556, 126);
+            this.nameGroupbox.TabIndex = 25;
+            this.nameGroupbox.TabStop = false;
+            this.nameGroupbox.Text = "Filter";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(27, 25);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(87, 20);
+            this.label1.TabIndex = 28;
+            this.label1.Text = "Field name";
+            // 
+            // filterFieldComboBox
+            // 
+            this.filterFieldComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.filterFieldComboBox.FormattingEnabled = true;
+            this.filterFieldComboBox.Location = new System.Drawing.Point(120, 22);
+            this.filterFieldComboBox.Name = "filterFieldComboBox";
+            this.filterFieldComboBox.Size = new System.Drawing.Size(177, 28);
+            this.filterFieldComboBox.TabIndex = 27;
+            this.filterFieldComboBox.DropDown += new System.EventHandler(this.filterFieldComboBox_DropDown);
+            // 
+            // checkBox6
+            // 
+            this.checkBox6.AutoSize = true;
+            this.checkBox6.Location = new System.Drawing.Point(276, 75);
+            this.checkBox6.Name = "checkBox6";
+            this.checkBox6.Size = new System.Drawing.Size(124, 24);
+            this.checkBox6.TabIndex = 22;
+            this.checkBox6.Text = "Exclude field";
+            this.checkBox6.UseVisualStyleBackColor = true;
+            // 
+            // maxFieldValue
+            // 
+            this.maxFieldValue.Location = new System.Drawing.Point(188, 73);
+            this.maxFieldValue.Name = "maxFieldValue";
+            this.maxFieldValue.Size = new System.Drawing.Size(71, 26);
+            this.maxFieldValue.TabIndex = 21;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(144, 76);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(38, 20);
+            this.label15.TabIndex = 20;
+            this.label15.Text = "Max";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(27, 76);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(34, 20);
+            this.label16.TabIndex = 19;
+            this.label16.Text = "Min";
+            // 
+            // minFieldValue
+            // 
+            this.minFieldValue.Location = new System.Drawing.Point(67, 73);
+            this.minFieldValue.Name = "minFieldValue";
+            this.minFieldValue.Size = new System.Drawing.Size(71, 26);
+            this.minFieldValue.TabIndex = 18;
+            // 
+            // fieldBox
+            // 
+            this.fieldBox.Controls.Add(this.resetFieldsButton);
+            this.fieldBox.Controls.Add(this.groupBox1);
+            this.fieldBox.Controls.Add(this.nameGroupbox);
+            this.fieldBox.Controls.Add(this.searchButton);
+            this.fieldBox.Controls.Add(this.nameTextBox);
+            this.fieldBox.Controls.Add(this.label6);
+            this.fieldBox.Location = new System.Drawing.Point(12, 9);
+            this.fieldBox.Name = "fieldBox";
+            this.fieldBox.Size = new System.Drawing.Size(571, 437);
+            this.fieldBox.TabIndex = 26;
+            this.fieldBox.TabStop = false;
+            this.fieldBox.Text = "Search";
+            // 
+            // resetFieldsButton
+            // 
+            this.resetFieldsButton.Location = new System.Drawing.Point(462, 275);
+            this.resetFieldsButton.Name = "resetFieldsButton";
+            this.resetFieldsButton.Size = new System.Drawing.Size(103, 48);
+            this.resetFieldsButton.TabIndex = 23;
+            this.resetFieldsButton.Text = "Reset filters";
+            this.resetFieldsButton.UseVisualStyleBackColor = true;
+            this.resetFieldsButton.Click += new System.EventHandler(this.resetFieldsButton_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.sortOrderComboBox);
+            this.groupBox1.Controls.Add(this.sortFieldComboBox);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Location = new System.Drawing.Point(4, 60);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(561, 54);
+            this.groupBox1.TabIndex = 27;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Sort";
+            // 
+            // sortOrderComboBox
+            // 
+            this.sortOrderComboBox.FormattingEnabled = true;
+            this.sortOrderComboBox.Items.AddRange(new object[] {
+            "Ascending",
+            "Descending"});
+            this.sortOrderComboBox.Location = new System.Drawing.Point(333, 21);
+            this.sortOrderComboBox.Name = "sortOrderComboBox";
+            this.sortOrderComboBox.Size = new System.Drawing.Size(147, 28);
+            this.sortOrderComboBox.TabIndex = 28;
+            // 
+            // sortFieldComboBox
+            // 
+            this.sortFieldComboBox.FormattingEnabled = true;
+            this.sortFieldComboBox.Items.AddRange(new object[] {
+            "Field1",
+            "Field2",
+            "Field3",
+            "Etc"});
+            this.sortFieldComboBox.Location = new System.Drawing.Point(152, 20);
+            this.sortFieldComboBox.Name = "sortFieldComboBox";
+            this.sortFieldComboBox.Size = new System.Drawing.Size(175, 28);
+            this.sortFieldComboBox.TabIndex = 27;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(59, 24);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(87, 20);
+            this.label2.TabIndex = 26;
+            this.label2.Text = "Field name";
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(601, 39);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 62;
+            this.dataGridView1.RowTemplate.Height = 28;
+            this.dataGridView1.Size = new System.Drawing.Size(696, 546);
+            this.dataGridView1.TabIndex = 27;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.searchButton);
-            this.Controls.Add(this.textBox5);
-            this.Controls.Add(this.label6);
+            this.ClientSize = new System.Drawing.Size(1309, 889);
+            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.fieldBox);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.listView1);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.trackBar2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.trackBar1);
             this.Name = "Form1";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
+            this.nameGroupbox.ResumeLayout(false);
+            this.nameGroupbox.PerformLayout();
+            this.fieldBox.ResumeLayout(false);
+            this.fieldBox.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.TrackBar trackBar1;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TrackBar trackBar2;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TrackBar trackBar3;
-        private System.Windows.Forms.TrackBar trackBar4;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox nameTextBox;
         private System.Windows.Forms.Button searchButton;
+        private System.Windows.Forms.GroupBox nameGroupbox;
+        private System.Windows.Forms.CheckBox checkBox6;
+        private System.Windows.Forms.TextBox maxFieldValue;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox minFieldValue;
+        private System.Windows.Forms.GroupBox fieldBox;
+        private System.Windows.Forms.Button resetFieldsButton;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox filterFieldComboBox;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ComboBox sortFieldComboBox;
+        private System.Windows.Forms.ComboBox sortOrderComboBox;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }
 

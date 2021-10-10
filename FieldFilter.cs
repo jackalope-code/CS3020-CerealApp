@@ -10,23 +10,22 @@ namespace CerealApp
     {
         private int min;
         private int max;
-        private String fieldName;
 
         public int MinValue { get { return this.min; } }
 
         public int MaxValue { get { return this.max; } }
 
-        public FieldFilter(int min, int max, String fieldName)
+        public bool ExcludeField { get; set; }
+
+        public FieldFilter(int min, int max, bool exclude)
         {
             this.min = min;
             this.max = max;
-            this.fieldName = fieldName;
+            this.ExcludeField = exclude;
         }
 
         public int Min => min;
 
         public int Max => max;
-
-        public String FieldName => fieldName;
     }
 }

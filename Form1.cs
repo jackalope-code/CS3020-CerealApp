@@ -11,9 +11,8 @@ using System.Windows.Forms;
 
 /*  TODO:
  *  
- *  Update fields to work with sane default values
- *  Update the search to work from ONE SAVED FIELD
- *  Update the search to work with ALL SAVED FIELDS
+ *  Change field value storage so that just a max or just a min works
+ *  Change filter field so it can also filter on single text values
  *  
  *  Review code structure... look for inconsistencies and errors
  *  Add more comments/documentation
@@ -48,7 +47,6 @@ namespace CerealApp
             string line;
             string header = reader.ReadLine();
             while((line = reader.ReadLine()) != null)
-            //for (int i = 0; i < 5; i++)
             {
                 string[] fields = line.Split(',');
                 CerealInfo info = new CerealInfo(fields);
@@ -56,31 +54,6 @@ namespace CerealApp
             }
 
             SetResultOutput(cereals);
-        }
-
-        private void menuAToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listView1_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
-
         }
 
         private void searchButton_Click(object sender, EventArgs e)
@@ -103,18 +76,20 @@ namespace CerealApp
             double fieldMin = 0;
             double fieldMax = 0;
             bool sortOrderAscending = this.sortOrderComboBox.SelectedItem.Equals("Ascending");
-            Console.WriteLine("sort order");
-            Console.WriteLine(sortOrderAscending);
 
             bool errorParsing = !double.TryParse(this.minFieldValue.Text, out fieldMin);
             errorParsing = errorParsing || !double.TryParse(this.maxFieldValue.Text, out fieldMax);
+            // TODO: Cleanup
             Console.WriteLine($"Error parsing? {errorParsing}");
 
             // Initialize results with all of the data, then apply repeating filters.
             IEnumerable<CerealInfo> results = cereals;
             foreach (FieldName filterName in filterData.Keys) {
                 FieldFilter filterObject = filterData[filterName];
-
+                if(filterObject.ExcludeField)
+                {
+                    continue;
+                }
                 results = (from cereal in results
                                where cereal.Name.ToLower().Contains(nameSearch.ToLower())
                                where (errorParsing ||
@@ -144,7 +119,6 @@ namespace CerealApp
             {
                 if (isTextField)
                 {
-                    Console.WriteLine("descending text sort");
                     sortedResults = results.OrderByDescending(result => result.GetStringField(sortedField));
                 }
                 else
@@ -155,16 +129,23 @@ namespace CerealApp
 
             SetResultOutput(sortedResults.ToList());
         }
+
         private void resetFieldsButton_Click(object sender, EventArgs e)
         {
-            filterData.Clear();
-            this.minFieldValue.Text = "";
-            this.maxFieldValue.Text = "";
-            this.checkBox6.Enabled = true;
+            DialogResult result = 
+                MessageBox.Show("Warning! This will reset all fields! Are you sure that you want to continue?",
+                "Confirm reset", MessageBoxButtons.OKCancel);
+            if(result == DialogResult.OK)
+            {
+                filterData.Clear();
+                this.minFieldValue.Text = "";
+                this.maxFieldValue.Text = "";
+                this.checkBox6.Checked = false;
 
-            this.sortFieldComboBox.SelectedItem = FieldName.NAME;
-            this.sortOrderComboBox.SelectedIndex = 0;
-            RunSearch();
+                this.sortFieldComboBox.SelectedItem = FieldName.NAME;
+                this.sortOrderComboBox.SelectedIndex = 0;
+                RunSearch();
+            }
         }
 
         private void SetResultOutput(List<CerealInfo> results)
@@ -174,16 +155,10 @@ namespace CerealApp
             this.dataGridView1.DataSource = source;
         }
 
+        // Store whatever is in the currently selected field in case the user changes the selection.
         private void filterFieldComboBox_DropDown(object sender, EventArgs e)
         {
             SaveCurrentField();
-
-            Console.WriteLine("Fields:");
-            foreach (var key in filterData.Keys)
-            {
-                var filter = filterData[key];
-                Console.WriteLine($"{key}: {filter.MinValue} - {filter.MaxValue}");
-            }
         }
 
         /// <summary>
@@ -194,18 +169,22 @@ namespace CerealApp
         private bool SaveCurrentField()
         {
             int min, max;
-            if( int.TryParse(this.minFieldValue.Text, out min) &&
-                int.TryParse(this.maxFieldValue.Text, out max))
-               {
-                    FieldName field = GetSelectedFilterFieldAsEnum();
-                    var filter = new FieldFilter(min, max, "");
-                    this.filterData[field] = filter;
+            if (
+                int.TryParse(this.minFieldValue.Text, out min) &&
+                int.TryParse(this.maxFieldValue.Text, out max)
+            )
+            {
+                FieldName field = GetSelectedFilterFieldAsEnum();
+                bool excludeField = this.checkBox6.Checked;
+                var filter = new FieldFilter(min, max, excludeField);
+                this.filterData[field] = filter;
                 return true;
 
             }
             return false;
         }
 
+        // Helper method to determine what field is selected in the UI at any given time
         private FieldName GetSelectedFilterFieldAsEnum()
         {
             FieldName field;
@@ -213,6 +192,7 @@ namespace CerealApp
             return field;
         }
 
+        // Load whatever might be saved for the newly selected field
         private void filterFieldComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             LoadField(GetSelectedFilterFieldAsEnum());
@@ -227,14 +207,18 @@ namespace CerealApp
         {
             if (filterData.ContainsKey(field))
             {
+                // Load filter data object from a field to allow cycling through fields
                 var filter = filterData[field];
                 this.minFieldValue.Text = filter.MinValue.ToString();
                 this.maxFieldValue.Text = filter.MaxValue.ToString();
+                this.checkBox6.Checked = filter.ExcludeField;
 
             } else
             {
+                // Set default field UI state
                 this.minFieldValue.Text = "";
                 this.maxFieldValue.Text = "";
+                this.checkBox6.Checked = false;
             }
         }
     }

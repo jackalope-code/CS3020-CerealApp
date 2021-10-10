@@ -33,13 +33,15 @@ namespace CerealApp
 
         public Form1()
         {
+            this.cereals = new List<CerealInfo>();
+            this.filterData = new Dictionary<FieldName, FieldFilter>();
             InitializeComponent();
+            this.sortFieldComboBox.SelectedItem = FieldName.NAME;
+            this.sortOrderComboBox.SelectedIndex = 0;
 
             this.filterFieldComboBox.DataSource = Enum.GetNames(typeof(FieldName));
             this.sortFieldComboBox.DataSource = Enum.GetNames(typeof(FieldName));
 
-            this.cereals = new List<CerealInfo>();
-            this.filterData = new Dictionary<FieldName, FieldFilter>();
 
             // Load cereals
             StreamReader reader = new StreamReader("../../cereal.csv");
@@ -85,6 +87,14 @@ namespace CerealApp
         {
             SaveCurrentField();
 
+            RunSearch();
+        }
+
+        /// <summary>
+        ///  Contains all the logic for searching, filtering, ordering, and displaying results.
+        /// </summary>
+        private void RunSearch()
+        {
             String nameSearch = this.nameTextBox.Text;
             FieldName sortedField;
             Enum.TryParse(this.sortFieldComboBox.Text, out sortedField);
@@ -92,38 +102,49 @@ namespace CerealApp
             Enum.TryParse(this.filterFieldComboBox.Text, out currentFilteredField);
             double fieldMin = 0;
             double fieldMax = 0;
-            bool sortOrderAscending = this.sortOrderComboBox.Text.Equals("Ascending");
+            bool sortOrderAscending = this.sortOrderComboBox.SelectedItem.Equals("Ascending");
+            Console.WriteLine("sort order");
+            Console.WriteLine(sortOrderAscending);
 
             bool errorParsing = !double.TryParse(this.minFieldValue.Text, out fieldMin);
             errorParsing = errorParsing || !double.TryParse(this.maxFieldValue.Text, out fieldMax);
             Console.WriteLine($"Error parsing? {errorParsing}");
 
-            var results = (from cereal in cereals
-                           where cereal.Name.ToLower().Contains(nameSearch.ToLower())
-                           where (errorParsing ||
-                               (cereal.GetDoubleField(currentFilteredField) >= fieldMin
-                                 && cereal.GetDoubleField(currentFilteredField) <= fieldMax
+            // Initialize results with all of the data, then apply repeating filters.
+            IEnumerable<CerealInfo> results = cereals;
+            foreach (FieldName filterName in filterData.Keys) {
+                FieldFilter filterObject = filterData[filterName];
+
+                results = (from cereal in results
+                               where cereal.Name.ToLower().Contains(nameSearch.ToLower())
+                               where (errorParsing ||
+                                   (cereal.GetDoubleField(filterName) >= filterObject.MinValue
+                                     && cereal.GetDoubleField(filterName) <= filterObject.MaxValue
+                                   )
                                )
-                           )
-                           select cereal);
+                               select cereal);
+
+            }
 
 
-            Console.WriteLine($"sort on {sortedField}");
             IOrderedEnumerable<CerealInfo> sortedResults;
             bool isTextField = sortedField == FieldName.NAME || sortedField == FieldName.MFR || sortedField == FieldName.TYPE;
-            if(sortOrderAscending)
-            {
-                if(isTextField)
-                {
-                    sortedResults = results.OrderBy(result => result.GetStringField(sortedField));
-                } else
-                {
-                    sortedResults = results.OrderBy(result => result.GetDoubleField(sortedField));
-                }
-            } else
+            if (sortOrderAscending)
             {
                 if (isTextField)
                 {
+                    sortedResults = results.OrderBy(result => result.GetStringField(sortedField));
+                }
+                else
+                {
+                    sortedResults = results.OrderBy(result => result.GetDoubleField(sortedField));
+                }
+            }
+            else
+            {
+                if (isTextField)
+                {
+                    Console.WriteLine("descending text sort");
                     sortedResults = results.OrderByDescending(result => result.GetStringField(sortedField));
                 }
                 else
@@ -134,10 +155,16 @@ namespace CerealApp
 
             SetResultOutput(sortedResults.ToList());
         }
-
         private void resetFieldsButton_Click(object sender, EventArgs e)
         {
             filterData.Clear();
+            this.minFieldValue.Text = "";
+            this.maxFieldValue.Text = "";
+            this.checkBox6.Enabled = true;
+
+            this.sortFieldComboBox.SelectedItem = FieldName.NAME;
+            this.sortOrderComboBox.SelectedIndex = 0;
+            RunSearch();
         }
 
         private void SetResultOutput(List<CerealInfo> results)
@@ -159,15 +186,24 @@ namespace CerealApp
             }
         }
 
-        private void SaveCurrentField()
+        /// <summary>
+        /// Save the field state if both the min and max fields are populated.
+        /// Returns a bool that indicates success or failure.
+        /// </summary>
+        /// <returns></returns>
+        private bool SaveCurrentField()
         {
             int min, max;
-            int.TryParse(this.minFieldValue.Text, out min);
-            int.TryParse(this.maxFieldValue.Text, out max);
+            if( int.TryParse(this.minFieldValue.Text, out min) &&
+                int.TryParse(this.maxFieldValue.Text, out max))
+               {
+                    FieldName field = GetSelectedFilterFieldAsEnum();
+                    var filter = new FieldFilter(min, max, "");
+                    this.filterData[field] = filter;
+                return true;
 
-            FieldName field = GetSelectedFilterFieldAsEnum();
-            var filter = new FieldFilter(min, max, "");
-            this.filterData[field] = filter;
+            }
+            return false;
         }
 
         private FieldName GetSelectedFilterFieldAsEnum()
@@ -175,6 +211,31 @@ namespace CerealApp
             FieldName field;
             Enum.TryParse(this.filterFieldComboBox.Text, out field);
             return field;
+        }
+
+        private void filterFieldComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadField(GetSelectedFilterFieldAsEnum());
+        }
+
+        /// <summary>
+        /// Set fields if there is data stored in the running program. Otherwise, this
+        /// will set fields to default (empty) values.
+        /// </summary>
+        /// <param name="field"></param>
+        private void LoadField(FieldName field)
+        {
+            if (filterData.ContainsKey(field))
+            {
+                var filter = filterData[field];
+                this.minFieldValue.Text = filter.MinValue.ToString();
+                this.maxFieldValue.Text = filter.MaxValue.ToString();
+
+            } else
+            {
+                this.minFieldValue.Text = "";
+                this.maxFieldValue.Text = "";
+            }
         }
     }
 }

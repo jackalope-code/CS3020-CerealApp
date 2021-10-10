@@ -123,6 +123,7 @@ namespace CerealApp
             this.filterFieldComboBox.Size = new System.Drawing.Size(177, 28);
             this.filterFieldComboBox.TabIndex = 27;
             this.filterFieldComboBox.DropDown += new System.EventHandler(this.filterFieldComboBox_DropDown);
+            this.filterFieldComboBox.SelectedIndexChanged += new System.EventHandler(this.filterFieldComboBox_SelectedIndexChanged);
             // 
             // checkBox6
             // 
@@ -217,11 +218,6 @@ namespace CerealApp
             // sortFieldComboBox
             // 
             this.sortFieldComboBox.FormattingEnabled = true;
-            this.sortFieldComboBox.Items.AddRange(new object[] {
-            "Field1",
-            "Field2",
-            "Field3",
-            "Etc"});
             this.sortFieldComboBox.Location = new System.Drawing.Point(152, 20);
             this.sortFieldComboBox.Name = "sortFieldComboBox";
             this.sortFieldComboBox.Size = new System.Drawing.Size(175, 28);

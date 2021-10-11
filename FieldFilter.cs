@@ -8,24 +8,31 @@ namespace CerealApp
 {
     class FieldFilter
     {
-        private int min;
-        private int max;
+        private int? min;
+        private int? max;
 
-        public int MinValue { get { return this.min; } }
+        public int? MinValue { get { return this.min; } }
 
-        public int MaxValue { get { return this.max; } }
+        public int? MaxValue { get { return this.max; } }
+
+        public bool MinValueSet { get; set; }
+
+        public bool MaxValueSet { get; set; }
 
         public bool ExcludeField { get; set; }
 
-        public FieldFilter(int min, int max, bool exclude)
+        public FieldFilter(int? min, int? max, bool exclude)
         {
             this.min = min;
             this.max = max;
             this.ExcludeField = exclude;
         }
 
-        public int Min => min;
-
-        public int Max => max;
+        //public static FieldFilter MinFilter(int min, bool exclude)
+        //{
+        //    FieldFilter filter = new FieldFilter(min, 0, exclude);
+        //    filter.MinValueSet = true;
+        //    filter.MaxValueSet = false;
+        //}
     }
 }

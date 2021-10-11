@@ -9,18 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-/*  TODO:
- *  
- *  Change field value storage so that just a max or just a min works
- *  Change filter field so it can also filter on single text values
- *  
- *  Review code structure... look for inconsistencies and errors
- *  Add more comments/documentation
- *  Do the writeup and design doc for this program
- * 
- * 
- */
-
 namespace CerealApp
 {
 
@@ -38,9 +26,15 @@ namespace CerealApp
             this.sortFieldComboBox.SelectedItem = FieldName.NAME;
             this.sortOrderComboBox.SelectedIndex = 0;
 
-            this.filterFieldComboBox.DataSource = Enum.GetNames(typeof(FieldName));
-            this.sortFieldComboBox.DataSource = Enum.GetNames(typeof(FieldName));
+            List<string> enumFilterList = (from fieldEnum in Enum.GetNames(typeof(FieldName))
+                                             where fieldEnum != FieldName.NAME.ToString()
+                                                && fieldEnum != FieldName.TYPE.ToString()
+                                                && fieldEnum != FieldName.MFR.ToString()
+                                             select fieldEnum).ToList();
 
+            this.filterFieldComboBox.DataSource = enumFilterList;
+
+            this.sortFieldComboBox.DataSource = Enum.GetNames(typeof(FieldName));
 
             // Load cereals
             StreamReader reader = new StreamReader("../../cereal.csv");
@@ -71,37 +65,46 @@ namespace CerealApp
             String nameSearch = this.nameTextBox.Text;
             FieldName sortedField;
             Enum.TryParse(this.sortFieldComboBox.Text, out sortedField);
-            FieldName currentFilteredField;
-            Enum.TryParse(this.filterFieldComboBox.Text, out currentFilteredField);
-            double fieldMin = 0;
-            double fieldMax = 0;
+
             bool sortOrderAscending = this.sortOrderComboBox.SelectedItem.Equals("Ascending");
 
-            bool errorParsing = !double.TryParse(this.minFieldValue.Text, out fieldMin);
-            errorParsing = errorParsing || !double.TryParse(this.maxFieldValue.Text, out fieldMax);
-            // TODO: Cleanup
-            Console.WriteLine($"Error parsing? {errorParsing}");
-
-            // Initialize results with all of the data, then apply repeating filters.
+            // Important: Initialize the results variable with all of the data, then apply repeating filters to/from the same variable.
             IEnumerable<CerealInfo> results = cereals;
-            foreach (FieldName filterName in filterData.Keys) {
+            foreach (FieldName filterName in filterData.Keys)
+            {
+                // A user can optionally skip a field
                 FieldFilter filterObject = filterData[filterName];
-                if(filterObject.ExcludeField)
+                if (filterObject.ExcludeField)
                 {
                     continue;
                 }
-                results = (from cereal in results
-                               where cereal.Name.ToLower().Contains(nameSearch.ToLower())
-                               where (errorParsing ||
-                                   (cereal.GetDoubleField(filterName) >= filterObject.MinValue
-                                     && cereal.GetDoubleField(filterName) <= filterObject.MaxValue
-                                   )
-                               )
-                               select cereal);
 
+                // Start by filtering on names
+                results = from cereal in results
+                          where cereal.Name.ToLower().Contains(nameSearch.ToLower())
+                          select cereal;
+
+                // Only apply min and max numeric filters if the column is a type where that makes sense
+                if (filterName != FieldName.NAME && filterName != FieldName.MFR && filterName != FieldName.TYPE)
+                {
+                    // Filter values could not be set, so check to see if applying the filters now makes sense.
+                    if (filterObject.MinValue.HasValue)
+                    {
+                        results = from cereal in results
+                                  where cereal.GetDoubleField(filterName) >= filterObject.MinValue.Value
+                                  select cereal;
+                    }
+                    if (filterObject.MaxValue.HasValue)
+                    {
+                        results = from cereal in results
+                                  where cereal.GetDoubleField(filterName) <= filterObject.MaxValue.Value
+                                  select cereal;
+                    }
+                }
             }
 
-
+            // Now that the proper data is in the results variable, handle
+            // ascending and descending sorts for the string and number columns
             IOrderedEnumerable<CerealInfo> sortedResults;
             bool isTextField = sortedField == FieldName.NAME || sortedField == FieldName.MFR || sortedField == FieldName.TYPE;
             if (sortOrderAscending)
@@ -166,22 +169,33 @@ namespace CerealApp
         /// Returns a bool that indicates success or failure.
         /// </summary>
         /// <returns></returns>
-        private bool SaveCurrentField()
+        private void SaveCurrentField()
         {
-            int min, max;
-            if (
-                int.TryParse(this.minFieldValue.Text, out min) &&
-                int.TryParse(this.maxFieldValue.Text, out max)
-            )
-            {
-                FieldName field = GetSelectedFilterFieldAsEnum();
-                bool excludeField = this.checkBox6.Checked;
-                var filter = new FieldFilter(min, max, excludeField);
-                this.filterData[field] = filter;
-                return true;
+            FieldName field = GetSelectedFilterFieldAsEnum();
 
+            int? min, max;
+            int fieldValue;
+            if (this.minFieldValue.Text != "" && int.TryParse(this.minFieldValue.Text, out fieldValue))
+            {
+                min = fieldValue;
             }
-            return false;
+            else
+            {
+                min = null;
+            }
+
+            if (this.maxFieldValue.Text != "" && int.TryParse(this.maxFieldValue.Text, out fieldValue))
+            {
+                max = fieldValue;
+            }
+            else
+            {
+                max = null;
+            }
+
+            bool excludeField = this.checkBox6.Checked;
+            var filter = new FieldFilter(min, max, excludeField);
+            this.filterData[field] = filter;
         }
 
         // Helper method to determine what field is selected in the UI at any given time

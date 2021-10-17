@@ -27,12 +27,5 @@ namespace CerealApp
             this.max = max;
             this.ExcludeField = exclude;
         }
-
-        //public static FieldFilter MinFilter(int min, bool exclude)
-        //{
-        //    FieldFilter filter = new FieldFilter(min, 0, exclude);
-        //    filter.MinValueSet = true;
-        //    filter.MaxValueSet = false;
-        //}
     }
 }
